@@ -6,8 +6,8 @@ const { setupRoutes } = require('./routes');
 
 const app = express();
 
-app.use(morgan('dev'));
 app.use(express.json());
+app.use(morgan('dev'));
 
 setupRoutes(app);
 
