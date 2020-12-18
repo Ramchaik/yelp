@@ -21,7 +21,7 @@ module.exports = {
 
     app.post('/api/v1/restaurants', async (req, res) => {
       console.log(req.body);
-      res.statusCode(201).send({
+      res.status(201).send({
         status: 'success',
         data: {
           restaurant: 'mcdonalds',
@@ -42,7 +42,7 @@ module.exports = {
 
     app.delete('/api/v1/restaurants/:id', async (req, res) => {
       console.log(req.params);
-      res.statusCode(204).send({
+      res.status(204).send({
         status: 'succes',
       });
     });
