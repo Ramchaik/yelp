@@ -44,13 +44,23 @@ module.exports = {
      * @note Create a restaurant
      */
     app.post('/api/v1/restaurants', async (req, res) => {
-      console.log(req.body);
-      res.status(201).send({
-        status: 'success',
-        data: {
-          restaurant: 'mcdonalds',
-        },
-      });
+      const { name, location, price_range } = req.body;
+      const text =
+        'INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *';
+      const values = [name, location, price_range];
+
+      try {
+        const results = await db.query(text, values);
+
+        res.status(201).send({
+          status: 'success',
+          data: {
+            restaurant: results.rows[0],
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     /**
