@@ -4,8 +4,10 @@ module.exports = {
      * @note Get/Read all restaurants
      */
     app.get('/api/v1/restaurants', async (req, res) => {
+      const text = 'SELECT * FROM restaurants';
+
       try {
-        const results = await db.query('select * from restaurants');
+        const results = await db.query(text);
         res.json({
           status: 'success',
           results: results.rows.length,
@@ -23,7 +25,7 @@ module.exports = {
      */
     app.get('/api/v1/restaurants/:id', async (req, res) => {
       const { id } = req.params;
-      const text = 'select * from restaurants where id = $1';
+      const text = 'SELECT * FROM restaurants WHERE id = $1';
       const values = [id];
 
       try {
