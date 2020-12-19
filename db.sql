@@ -35,13 +35,13 @@ CREATE TABLE restaurants
   price_range INT NOT NULL CHECK(price_range >= 1 AND price_range <= 5)
 );
 
-INSERT INTO resturants
+INSERT INTO restaurants
   (name, location, price_range)
 VALUES
   ('Mcdonalds', 'NY', 3);
 
 SELECT *
-FROM resturants;
+FROM restaurants;
 
 SELECT name, price_range
-FROM resturants;
+FROM restaurants;
