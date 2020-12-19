@@ -93,10 +93,19 @@ module.exports = {
      * @note Remove/Delete a restaurant
      */
     app.delete('/api/v1/restaurants/:id', async (req, res) => {
-      console.log(req.params);
-      res.status(204).send({
-        status: 'succes',
-      });
+      const { id } = req.params;
+      const text = 'DELETE FROM restaurants WHERE id = $1';
+      const values = [id];
+
+      try {
+        const results = await db.query(text, values);
+
+        res.status(204).send({
+          status: 'succes',
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
   },
 };
