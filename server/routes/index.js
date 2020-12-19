@@ -4,15 +4,18 @@ module.exports = {
      * @note Get/Read all restaurants
      */
     app.get('/api/v1/restaurants', async (req, res) => {
-      const data = await db.query('select * from restaurants');
-      console.log(data);
-
-      res.json({
-        status: 'success',
-        data: {
-          restaurant: ['mcdonalds', 'wendys'],
-        },
-      });
+      try {
+        const results = await db.query('select * from restaurants');
+        res.json({
+          status: 'success',
+          results: results.rows.length,
+          data: {
+            restaurants: results.rows,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     /**
