@@ -45,3 +45,5 @@ FROM restaurants;
 
 SELECT name, price_range
 FROM restaurants;
+
+SELECT * from restaurants WHERE id=1;

@@ -22,13 +22,22 @@ module.exports = {
      * @note Get/Read one restaurant
      */
     app.get('/api/v1/restaurants/:id', async (req, res) => {
-      console.log(req.params);
-      res.send({
-        status: 'success',
-        data: {
-          restaurant: 'mcdonalds',
-        },
-      });
+      const { id } = req.params;
+      const text = 'select * from restaurants where id = $1';
+      const values = [id];
+
+      try {
+        const restaurant = await db.query(text, values);
+
+        res.send({
+          status: 'success',
+          data: {
+            restaurant: restaurant.rows[0],
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     /**
