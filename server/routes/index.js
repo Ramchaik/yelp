@@ -69,14 +69,24 @@ module.exports = {
      * @note Update a restaurant
      */
     app.put('/api/v1/restaurants/:id', async (req, res) => {
-      console.log(req.params);
-      console.log(req.body);
-      res.send({
-        status: 'success',
-        data: {
-          restaurant: 'mcdonalds',
-        },
-      });
+      const { id } = req.params;
+      const { name, location, price_range } = req.body;
+      const text =
+        'UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 RETURNING *';
+      const values = [name, location, price_range, id];
+
+      try {
+        const results = await db.query(text, values);
+
+        res.send({
+          status: 'success',
+          data: {
+            restaurant: results.rows[0],
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     /**

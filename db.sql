@@ -47,3 +47,5 @@ SELECT name, price_range
 FROM restaurants;
 
 SELECT * from restaurants WHERE id=1;
+
+UPDATE restaurants SET name = 'red lobster', location = 'miami', price_range = 2 WHERE id = 8;
