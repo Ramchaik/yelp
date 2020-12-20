@@ -13,7 +13,6 @@ const App = () => {
         <Route exact path='/restaurants/:id/update' component={UpdatePage} />
       </Switch>
     </Router>
-
   </div>
 }
 
