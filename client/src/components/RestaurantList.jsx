@@ -18,6 +18,23 @@ const RestaurantList = (props) => {
     fetchData();
   }, []);
 
+  const renderRestaurantList = (restaurants) => {
+    return restaurants.map(({ id, name, location, price_range } = {}) => (
+      <tr key={id}>
+        <td>{name}</td>
+        <td>{location}</td>
+        <td>{'$'.repeat(price_range)}</td>
+        <td>reviews</td>
+        <td>
+          <button className='btn btn-warning'>Update</button>
+        </td>
+        <td>
+          <button className='btn btn-danger'>Delete</button>
+        </td>
+      </tr>
+    ));
+  };
+
   return (
     <div className='list-group'>
       <table className='table table-hover table-dark'>
@@ -31,44 +48,7 @@ const RestaurantList = (props) => {
             <th scope='col'>Delete</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>$$</td>
-            <td>Rating</td>
-            <td>
-              <button className='btn btn-warning'>Update</button>
-            </td>
-            <td>
-              <button className='btn btn-danger'>Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>$$</td>
-            <td>Rating</td>
-            <td>
-              <button className='btn btn-warning'>Update</button>
-            </td>
-            <td>
-              <button className='btn btn-danger'>Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>$$</td>
-            <td>Rating</td>
-            <td>
-              <button className='btn btn-warning'>Update</button>
-            </td>
-            <td>
-              <button className='btn btn-danger'>Delete</button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody>{restaurants && renderRestaurantList(restaurants)}</tbody>
       </table>
     </div>
   );
