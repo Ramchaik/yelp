@@ -6,12 +6,12 @@ const AddRestaurant = () => {
   const { addRestaurant } = useContext(RestaurantsContext);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
-  const [price, setPrice] = useState('Price Range');
+  const [priceRange, setPriceRange] = useState('Price Range');
 
   const resetFields = () => {
     setName('');
-    setPrice('');
-    setPrice('Price Range');
+    setLocation('');
+    setPriceRange('Price Range');
   };
 
   const handleSubmit = async (e) => {
@@ -21,7 +21,7 @@ const AddRestaurant = () => {
       const response = await restaurantFinder.post('/', {
         name,
         location,
-        price_range: price,
+        price_range: priceRange,
       });
       addRestaurant(response.data.data.restaurant);
       resetFields();
@@ -54,8 +54,8 @@ const AddRestaurant = () => {
           </div>
           <div className='col'>
             <select
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              value={priceRange}
+              onChange={(e) => setPriceRange(e.target.value)}
               className='custom-select mr-sm-2'
             >
               <option disabled>Price Range</option>
