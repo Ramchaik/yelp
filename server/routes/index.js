@@ -25,16 +25,19 @@ module.exports = {
      */
     app.get('/api/v1/restaurants/:id', async (req, res) => {
       const { id } = req.params;
-      const text = 'SELECT * FROM restaurants WHERE id = $1';
+      const restaurantQueryText = 'SELECT * FROM restaurants WHERE id = $1';
+      const reviewsQueryText = 'SELECT * FROM reviews WHERE restaurant_id = $1';
       const values = [id];
 
       try {
-        const restaurant = await db.query(text, values);
+        const restaurant = await db.query(restaurantQueryText, values);
+        const reviews = await db.query(reviewsQueryText, values);
 
         res.send({
           status: 'success',
           data: {
             restaurant: restaurant.rows[0],
+            reviews: reviews.rows,
           },
         });
       } catch (error) {
