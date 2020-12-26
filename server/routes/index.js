@@ -4,7 +4,8 @@ module.exports = {
      * @note Get/Read all restaurants
      */
     app.get('/api/v1/restaurants', async (req, res) => {
-      const text = 'SELECT * FROM restaurants';
+      const text =
+        'SELECT * FROM restaurants LEFT JOIN (SELECT restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) as average_rating FROM reviews GROUP BY restaurant_id) reviews on restaurants.id = reviews.restaurant_id';
 
       try {
         const results = await db.query(text);
@@ -25,7 +26,8 @@ module.exports = {
      */
     app.get('/api/v1/restaurants/:id', async (req, res) => {
       const { id } = req.params;
-      const restaurantQueryText = 'SELECT * FROM restaurants WHERE id = $1';
+      const restaurantQueryText =
+        'SELECT * FROM restaurants LEFT JOIN (SELECT restaurant_id, COUNT(*), TRUNC(AVG(rating), 1) as average_rating FROM reviews GROUP BY restaurant_id) reviews on restaurants.id = reviews.restaurant_id WHERE id = $1';
       const reviewsQueryText = 'SELECT * FROM reviews WHERE restaurant_id = $1';
       const values = [id];
 
