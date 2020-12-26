@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import restaurantFinder from '../apis/restaurantFinder';
 import { RestaurantsContext } from '../context/RestaurantsContext';
+import StarRating from './StarRating';
 
 const RestaurantList = (props) => {
   const history = useHistory();
@@ -39,31 +40,46 @@ const RestaurantList = (props) => {
   const handleRestaurantSelect = (id) => () =>
     history.push(`/restaurants/${id}`);
 
+  const renderRating = ({ average_rating, count } = {}) => {
+    if ((typeof count === 'number' && count === 0) || !count) {
+      return <span className='text-warning'>0 reviews</span>;
+    }
+
+    return (
+      <>
+        <StarRating rating={average_rating} />
+        <span className='text-warning ml-1'>({count})</span>
+      </>
+    );
+  };
+
   const renderRestaurantList = (restaurants) => {
-    return restaurants.map(({ id, name, location, price_range } = {}) => (
-      <tr onClick={handleRestaurantSelect(id)} key={id} role='button'>
-        <td>{name}</td>
-        <td>{location}</td>
-        <td>{'$'.repeat(price_range)}</td>
-        <td>reviews</td>
-        <td>
-          <button
-            onClick={(e) => handleUpdate(e, id)}
-            className='btn btn-warning'
-          >
-            Update
-          </button>
-        </td>
-        <td>
-          <button
-            onClick={(e) => handleDelete(e, id)}
-            className='btn btn-danger'
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    ));
+    return restaurants.map(
+      ({ id, name, location, price_range, average_rating, count } = {}) => (
+        <tr onClick={handleRestaurantSelect(id)} key={id} role='button'>
+          <td>{name}</td>
+          <td>{location}</td>
+          <td>{'$'.repeat(price_range)}</td>
+          <td>{renderRating({ average_rating, count })}</td>
+          <td>
+            <button
+              onClick={(e) => handleUpdate(e, id)}
+              className='btn btn-warning'
+            >
+              Update
+            </button>
+          </td>
+          <td>
+            <button
+              onClick={(e) => handleDelete(e, id)}
+              className='btn btn-danger'
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      )
+    );
   };
 
   return (
