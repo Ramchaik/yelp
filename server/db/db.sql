@@ -51,3 +51,18 @@ SELECT * from restaurants WHERE id=1;
 UPDATE restaurants SET name = 'red lobster', location = 'miami', price_range = 2 WHERE id = 8;
 
 DELETE FROM restaurants WHERE id = 8;
+
+
+-- Reviews
+CREATE TABLE reviews (
+  id BIGSERIAL NOT NULL PRIMARY KEY,
+  restaurant_id BIGINT NOT NULL REFERENCES restaurants(id),
+  name VARCHAR(50) NOT NULL,
+  review TEXT NOT NULL,
+  rating INT NOT NULL CHECK(rating >= 1 AND rating <= 5)
+);
+
+INSERT INTO reviews 
+  (restaurant_id, name, review, rating) 
+VALUES 
+  (1, 'carl', 'this is good', 3);
