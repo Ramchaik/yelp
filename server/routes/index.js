@@ -110,5 +110,25 @@ module.exports = {
         console.error(error);
       }
     });
+
+    app.post('/api/v1/restaurants/:id/addReview', async (req, res) => {
+      const { id } = req.params;
+      const { name, review, rating } = req.body;
+      const text =
+        'INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ($1, $2, $3, $4) RETURNING *';
+      const values = [id, name, review, rating];
+
+      try {
+        const newReview = await db.query(text, values);
+        res.status(201).json({
+          status: 'success',
+          data: {
+            review: newReview.rows[0],
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    });
   },
 };
